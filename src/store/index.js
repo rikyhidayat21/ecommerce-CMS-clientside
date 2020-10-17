@@ -17,7 +17,7 @@ export default new Vuex.Store({
     setAddProduct (state, payload) {
       state.product = payload
     },
-    selectedProduct(state, payload) {
+    selectedProduct (state, payload) {
       state.product = payload
     }
   },
@@ -57,7 +57,8 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data, '<==== data new product')
           context.commit('setAddProduct', data)
-          this.$router.push({ name: 'Home' })
+          router.push({ name: 'Home' }).catch(()=>{})
+          // .catch(()=>{})
         })
         .catch(err => {
           console.log(err, '<==== error add product di store')
@@ -82,8 +83,8 @@ export default new Vuex.Store({
     },
     editProduct (context, payload) {
       console.log(payload, '<<< payload di edit product')
-      axios({ 
-        url: `http://localhost:3000/products/` + payload.productId,
+      axios({
+        url: 'http://localhost:3000/products/' + payload.productId,
         method: 'put',
         data: payload,
         headers: {
@@ -97,6 +98,22 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err, '<==== error edit product')
         })
-    }
+    },
+    // deleteProduct (context, payload) {
+    //   axios({
+    //     url: 'http://localhost:3000/products/' + payload.productId,
+    //     method: 'delete',
+    //     headers: {
+    //       access_token: localStorage.access_token
+    //     }
+    //   })
+    //     .then(({ data }) => {
+    //       console.log(data, '<==== data deleted')
+    //       this.fetchProducts()
+    //     })
+    //     .catch(err => {
+    //       console.log(err, '<=== error delete di store')
+    //     })
+    // }
   }
 })

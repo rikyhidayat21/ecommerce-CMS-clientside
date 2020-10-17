@@ -1,5 +1,6 @@
 <template>
   <tr class="border-bottom">
+    <!-- {{ product }} -->
     <th scope="row">{{ product.id }}</th>
     <th style="width: 30%">{{ product.name }}</th>
     <td style="width: 10%">{{ product.price }}</td>
@@ -21,8 +22,18 @@ export default {
   methods: {
     toEditPage () {
       this.$router.push(`/edit-product/${this.product.id}`)
-    }
-  }
+    },
+    
+  },
+  // created () {
+  //   console.log(this.$route.params.id, '<==== ini id product di tablerow')
+  //   this.$store.dispatch('deleteProduct', this.$route.params.id)
+  // },
+  // computed: {
+  //   product () {
+  //     return this.$store.state.product
+  //   }
+  // },
 
 }
 </script>
