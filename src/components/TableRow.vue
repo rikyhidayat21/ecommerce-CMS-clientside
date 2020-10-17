@@ -9,8 +9,8 @@
       <img class="rounded" :src="product.image_url" alt="" style="width: 80%">
     </td>
     <td class="text-center" style="width: 20%">
-      <button class="btn btn-info mr-2" @click="toEditPage">Edit</button>
-      <button class="btn btn-danger ml-2" @click="deleteProduct">Delete</button>
+      <button class="btn btn-info mr-2" @click.prevent="toEditPage">Edit</button>
+      <button class="btn btn-danger ml-2" @click.prevent="deleteProduct">Delete</button>
     </td>
   </tr>
 </template>

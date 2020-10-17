@@ -81,6 +81,12 @@ export default new Vuex.Store({
           // .catch(()=>{})
         })
         .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            // text: err.ResponseText,
+            // footer: '<a href>Why do I have this issue?</a>'
+          })
           console.log(err, '<==== error add product di store')
         })
     },
