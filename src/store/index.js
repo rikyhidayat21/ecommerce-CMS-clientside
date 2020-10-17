@@ -19,6 +19,9 @@ export default new Vuex.Store({
     },
     selectedProduct (state, payload) {
       state.product = payload
+    },
+    deleteProduct (state, payload) {
+      state.products = state.products.filter(product => product.id !== payload)
     }
   },
   actions: {
@@ -99,21 +102,21 @@ export default new Vuex.Store({
           console.log(err, '<==== error edit product')
         })
     },
-    // deleteProduct (context, payload) {
-    //   axios({
-    //     url: 'http://localhost:3000/products/' + payload.productId,
-    //     method: 'delete',
-    //     headers: {
-    //       access_token: localStorage.access_token
-    //     }
-    //   })
-    //     .then(({ data }) => {
-    //       console.log(data, '<==== data deleted')
-    //       this.fetchProducts()
-    //     })
-    //     .catch(err => {
-    //       console.log(err, '<=== error delete di store')
-    //     })
-    // }
+    deleteProduct (context, id) {
+      axios({
+        url: `http://localhost:3000/products/${id}`,
+        method: 'delete',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(({ data }) => {
+          console.log(data, '<=== deleted data')
+          context.commit('deleteProduct', id)
+        })
+        .catch(err => {
+          console.log(err, '<=== error delete di store')
+        })
+    }
   }
 })

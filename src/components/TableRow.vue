@@ -10,7 +10,7 @@
     </td>
     <td class="text-center" style="width: 20%">
       <button class="btn btn-info mr-2" @click="toEditPage">Edit</button>
-      <button class="btn btn-danger ml-2">Delete</button>
+      <button class="btn btn-danger ml-2" @click="deleteProduct">Delete</button>
     </td>
   </tr>
 </template>
@@ -23,7 +23,9 @@ export default {
     toEditPage () {
       this.$router.push(`/edit-product/${this.product.id}`)
     },
-    
+    deleteProduct (id) {
+      this.$store.dispatch('deleteProduct', this.product.id)
+    }
   },
   // created () {
   //   console.log(this.$route.params.id, '<==== ini id product di tablerow')
