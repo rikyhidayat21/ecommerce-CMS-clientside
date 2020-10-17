@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import router from '../router'
+import Swal from 'sweetalert2'
 
 Vue.use(Vuex)
 
@@ -25,6 +26,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    login (context, payload) {
+      return axios({
+        url: 'http://localhost:3000/login',
+        method: 'post',
+        data: payload
+      })
+    },
     fetchProducts (context) {
       console.log('sudah terpanggil nih dari Home di store fetchProducts')
       axios({
@@ -60,7 +68,16 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data, '<==== data new product')
           context.commit('setAddProduct', data)
-          router.push({ name: 'Home' }).catch(()=>{})
+          router.push({ name: 'Home' }).catch(() => {})
+          Swal.fire({
+            title: 'Success add product',
+            showClass: {
+              popup: 'animate__animated animate__fadeInDown'
+            },
+            hideClass: {
+              popup: 'animate__animated animate__fadeOutUp'
+            }
+          })
           // .catch(()=>{})
         })
         .catch(err => {
@@ -86,7 +103,7 @@ export default new Vuex.Store({
     },
     editProduct (context, payload) {
       console.log(payload, '<<< payload di edit product')
-      axios({
+      return axios({ // ditambah return 
         url: 'http://localhost:3000/products/' + payload.productId,
         method: 'put',
         data: payload,
@@ -94,29 +111,15 @@ export default new Vuex.Store({
           access_token: localStorage.access_token
         }
       })
-        .then(({ data }) => {
-          console.log('berhasil update guys')
-          router.push({ name: 'Home' })
-        })
-        .catch(err => {
-          console.log(err, '<==== error edit product')
-        })
     },
     deleteProduct (context, id) {
-      axios({
+      return axios({
         url: `http://localhost:3000/products/${id}`,
         method: 'delete',
         headers: {
           access_token: localStorage.access_token
         }
       })
-        .then(({ data }) => {
-          console.log(data, '<=== deleted data')
-          context.commit('deleteProduct', id)
-        })
-        .catch(err => {
-          console.log(err, '<=== error delete di store')
-        })
     }
   }
 })

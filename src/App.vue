@@ -1,9 +1,15 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link :to="{ name: 'Home' }">Home</router-link> |
+    <div id="nav text-center">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-center shadow">
+      <a class="navbar-brand" href="#">BOLAedan</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+      <!-- <router-link :to="{ name: 'Home' }">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/add-product">Add Product</router-link> |
+      <router-link to="/add-product">Add Product</router-link> | -->
       <!-- <router-link :to="{ name: 'Home' }">Logout</router-link> -->
       <!-- <router-link to="/login">Login</router-link> -->
     </div>
@@ -20,7 +26,7 @@
   color: #2c3e50;
 }
 
-#nav {
+/* #nav {
   padding: 30px;
 }
 
@@ -31,5 +37,5 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

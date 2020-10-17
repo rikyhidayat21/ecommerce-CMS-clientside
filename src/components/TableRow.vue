@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   name: 'TableRow',
   props: ['product'], // dapat dari binding di home
@@ -24,18 +25,33 @@ export default {
       this.$router.push(`/edit-product/${this.product.id}`)
     },
     deleteProduct (id) {
-      this.$store.dispatch('deleteProduct', this.product.id)
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$store.dispatch('deleteProduct', this.product.id)
+              .then(response => {
+                console.log(response)
+                Swal.fire(
+                  'Deleted!',
+                  'Product has been deleted.',
+                  'success'
+                )
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }
+        })
     }
-  },
-  // created () {
-  //   console.log(this.$route.params.id, '<==== ini id product di tablerow')
-  //   this.$store.dispatch('deleteProduct', this.$route.params.id)
-  // },
-  // computed: {
-  //   product () {
-  //     return this.$store.state.product
-  //   }
-  // },
+  }
 
 }
 </script>

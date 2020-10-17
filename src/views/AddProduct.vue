@@ -22,11 +22,11 @@
             <input type="integer" v-model="stock" class="form-control" name="add-stock" id="add-stock" />
           </div>
 
-          <button id="btn-add" type="submit" class="btn btn-info">
+          <button id="btn-add" type="submit" class="btn btn-info float-left">
             Submit
           </button>
         </form>
-          <button id="btn-add" type="submit" @click.prevent="backToHomePage" class="btn btn-danger float-left">
+          <button id="btn-add" type="submit" @click.prevent="backToHomePage" class="btn btn-danger float-right">
             Cancel
           </button>
       </div>

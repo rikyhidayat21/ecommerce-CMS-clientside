@@ -22,20 +22,21 @@
             <input type="text" v-model="stock" class="form-control" name="edit-stock" id="edit-stock" />
           </div>
 
-          <button id="btn-edit" type="submit" class="btn btn-info">
-            Submit
+          <button id="btn-edit" type="submit" class="btn btn-info float-left">
+            Edit
           </button>
         </form>
-          <!-- <button id="btn-edit" type="submit" @click.prevent="backToHomePage" class="btn btn-danger float-left">
-            Cancel
-          </button> -->
+        <button id="btn-edit" type="submit" @click.prevent="backToHomePage" class="btn btn-danger float-right">
+          Cancel
+        </button>
       </div>
     </div>
   </section>
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'EditProduct',
@@ -52,7 +53,7 @@ export default {
     // this.fetchProductById ()
     this.$store.dispatch('fetchProductById', this.$route.params.id)
   },
-  computed: { // untuk mengambil datanya
+  computed: { // untuk mengambil datanya dari store
     product () {
       return this.$store.state.product
     }
@@ -75,6 +76,31 @@ export default {
         productId: this.$route.params.id
       }
       this.$store.dispatch('editProduct', payload)
+        .then(_ => {
+          this.$router.push({ name: 'Home' })
+          const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Successfully update product'
+            })
+        })
+        .catch(err => {
+          Toast.fire('error', err.response.errors.join(',', 'error'))
+        })
+    },
+    backToHomePage () {
+      this.$router.push({ name: 'Home' })
     }
   }
 

@@ -8,7 +8,7 @@
         <div class="col-4" style="background-color: #dddddd;">
           <!-- <div class="card">
             <div class="card-body"> -->
-              <h5 class="card-title text-center mt-4"><b>Bolaedward store</b></h5>
+              <h5 class="card-title text-center mt-4"><b>BOLAedan store</b></h5>
               <p class="card-text text-center">Login</p>
               <form action=""  @submit.prevent="login">
                 <div class="form-group">
@@ -31,6 +31,7 @@
 
 <script>
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Login',
@@ -42,18 +43,30 @@ export default {
   },
   methods: {
     login () {
-      axios({
-        url: 'http://localhost:3000/login',
-        method: 'post',
-        data: {
-          email: this.email,
-          password: this.password
-        }
-      })
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('login', payload)
         .then(({ data }) => {
-          console.log(data, '<==== data login')
           localStorage.setItem('access_token', data.access_token)
           this.$router.push('/')
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'center',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Signed in successfully'
+          })
         })
         .catch(err => {
           console.log(err, '<==== error login')
