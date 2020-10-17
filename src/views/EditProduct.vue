@@ -4,7 +4,7 @@
       <div>
         <h3 class="text-center bg-info rounded shadow text-white">Edit Product</h3>
         <hr>
-        <form class="my-4" @submit.prevent="editPage">
+        <form class="my-4" @submit.prevent="editProduct">
           <div class="form-group">
             <label for="name">name</label>
             <input type="text" v-model="name" class="form-control" name="edit-name" id="edit-name"/>
@@ -49,41 +49,33 @@ export default {
   },
   created () {
     console.log(this.$route.params.id, '====<< ini id product')
-    this.fetchProductById ()
+    // this.fetchProductById ()
+    this.$store.dispatch('fetchProductById', this.$route.params.id)
+  },
+  computed: { // untuk mengambil datanya
+    product () {
+      return this.$store.state.product
+    }
+  },
+  watch: {
+    product () {
+      this.name = this.product.name
+      this.image_url = this.product.image_url
+      this.price = this.product.price
+      this.stock = this.product.stock
+    }
   },
   methods: {
-    fetchProductById () {
-      let productId = this.$route.params.id
-      axios({
-        url: `http://localhost:3000/products/${productId}`,
-        method: 'put',
-        headers: {
-          access_token: localStorage.access_token
-        }
-      })
-        .then(({ data }) => {
-          console.log(data, '<===== product')
-          this.name = data.name
-          this.image_url = data.image_url
-          this.price = data.price
-          this.stock = data.stock
-        })
-        .catch(err => {
-          console.log(err, '<===== error ')
-        })
-    },
-    // editProduct () {
-    //   const productId = this.$route.params.id
-    //   const payload = {
-    //     name: this.name,
-    //     image_url: this.image_url,
-    //     price: this.price,
-    //     stock: this.stock
-    //   }
-    //   axios({
-    //     url
-    //   })
-    // }
+    editProduct () {
+      const payload = {
+        name: this.name,
+        image_url: this.image_url,
+        price: this.price,
+        stock: this.stock,
+        productId: this.$route.params.id
+      }
+      this.$store.dispatch('editProduct', payload)
+    }
   }
 
 }
